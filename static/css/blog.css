@@ -21,6 +21,19 @@ h1{
     font-style: italic;
 }
 body{
-    background: brown;
+    background:lightcyan;
     color:white;
+}
+
+#ch{
+    color:yellow;
+    font-style: italic;
+}
+.cb{
+    background-color: lightcyan;
+    color:green;
+}
+
+#la{
+    background-color: white;
 }
