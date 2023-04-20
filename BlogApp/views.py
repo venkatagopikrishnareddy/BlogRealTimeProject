@@ -26,5 +26,34 @@ def post_detail_view(request, year,month,day,post):
 
 
 
+#from django.core.mail import send_mail
+#send_mail('Hello', 'Very imp msg....','gopievuri25@gmail.com',['Djangopycharm@gmail.com','DjangoPycharm1@gmail.com'])
+
+
+#views for email
 from django.core.mail import send_mail
-send_mail('Hello', 'Very imp msg....','gopievuri25@gmail.com',['Djangopycharm@gmail.com','DjangoPycharm1@gmail.com'])
+from BlogApp.forms import EmailSendForm
+def mail_send_view(request,id):
+    post=get_object_or_404(Post,id=id, status='published')
+    sent=False
+    form=EmailSendForm()
+    if request.method=='POST':
+        form=EmailSendForm(request.POST)
+        if form.is_valid():
+            cd=form.cleaned_data
+            post_url=request.build_absolute_uri(post.get_absolute_url())
+            subject='{}({}) recommends you to read "{}"'.format(cd['name'],cd['email'],	post.title)
+            message="Read Post At: \n{}\n\n{} 'Comments:\n{}".format(post_url,cd['name'],cd['comments'])
+            send_mail(subject, message, 'gopievuri25@gmail.com', [cd['to']]) #use[] or ()tuple
+            sent=True;
+    else:
+        form=EmailSendForm()
+        return render(request,'BlogApp/sharebymail.html', {'post':post,'form':form,'sent':sent})
+
+#bootstarp-sample.html-view
+def bs_sample_view(request):
+    return render(request,"BlogApp/Sample.html")
+
+#bootstarp-sample.html-view(JAVASCRIPT)
+def bs_samplejs_view(request):
+    return render (request,"BlogApp/Samplejs.html")

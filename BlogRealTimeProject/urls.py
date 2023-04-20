@@ -20,7 +20,9 @@ from BlogApp import views
 urlpatterns = [
     path('admin/', admin.site.urls),
 	path('<year>/<month>/<day>/<post>/', views.post_detail_view,name='post_detail'),
-
+    path("<id>/share/", views.mail_send_view),
+    path("bssample/",views.bs_sample_view),
+    path("bssamplejs/",views.bs_samplejs_view),
     #use-in-last
     re_path('^.*$', views.post_list_view),
 

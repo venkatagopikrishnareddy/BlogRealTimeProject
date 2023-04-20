@@ -6,4 +6,6 @@
     <hr />
     <p id='date'>Published on {{post.publish}} by {{post.author|title}}</p>
     {{post.body|linebreaks}}
+    <br />
+    <a href="/{{post.id}}/share/" class="btn btn-lg btn-primary">Share Post By Email</a>
 {%endblock%}
