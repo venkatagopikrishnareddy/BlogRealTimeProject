@@ -57,3 +57,30 @@ def bs_sample_view(request):
 #bootstarp-sample.html-view(JAVASCRIPT)
 def bs_samplejs_view(request):
     return render (request,"BlogApp/Samplejs.html")
+
+
+# comment form-view
+from BlogApp.models import Comment
+from BlogApp.forms import CommentForm
+
+
+def post_detail_view(request, year, month, day, post):
+    post = get_object_or_404(Post, slug=post,
+                             status='published',
+                             publish__year=year,
+                             publish__month=month,
+                             publish__day=day)
+    comments = post.comments.filter(active=True)
+    csubmit = False
+    if request.method == 'POST':
+        form = CommentForm(data=request.POST)
+        if form.is_valid():
+            new_comment = form.save(commit=False)
+            new_comment.post = post
+            new_comment.save()
+            csubmit = True
+    else:
+        form = CommentForm()
+    return render(request, 'BlogApp/post_detail.html',
+                  {"post": post, 'form': form, 'comments': comments, 'csubmit': csubmit})
+
